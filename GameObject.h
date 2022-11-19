@@ -3,6 +3,9 @@
 #include "Coordinates.h"
 #include "Player.h"
 
+//Класс игрового поля, которое имееет различные состояния, добавляя новые состояния можно расширять
+//игровые механики. По крайней мере в моей голове это работало так.
+
 class StateGameObject;
 class GameObject;
 class InvisibleState;
@@ -10,7 +13,7 @@ class VoidFieldState;
 class WallState;
 class PlayerState;
 
-class StateGameObject
+class StateGameObject //базовое состояние ничего не умеет.
 {
 private:
 	std::string name;
@@ -69,21 +72,21 @@ public:
 	}
 	void Hide();
 
-	bool PlayerTransfer(Player* pl)
+	bool PlayerTransfer(Player* pl)  //перемещение игрока на поле, взвращает False если это невозможно.
 	{
 		return state->PlayerTransfer(this, pl);
 	}
-	bool ClearPlayer()
+	bool ClearPlayer()    //удаляет игрока с поля
 	{
 		return state->ClearPlayer(this);
 	}
-	bool BuildWall()
+	bool BuildWall()   //строит на поле стену
 	{
 		return state->BuildWall(this);
 	}
 };
 
-class InvisibleState : public StateGameObject
+class InvisibleState : public StateGameObject  //нивидимое состояние. обозначается 0.
 {
 public:
 	InvisibleState() : StateGameObject("Invisible") {}
@@ -93,7 +96,7 @@ public:
 	}
 };
 
-class VoidFieldState : public StateGameObject
+class VoidFieldState : public StateGameObject  //состояние пустого поля, может стать стеной, может получить игрока. обозначается 1.
 {
 public:
 	VoidFieldState() : StateGameObject("VoidField") {}
@@ -106,7 +109,7 @@ public:
 
 };
 
-class WallState : public StateGameObject
+class WallState : public StateGameObject  //состояние стены не может ничего, игрока не принимает, обозначается 2.
 {
 public:
 	WallState() : StateGameObject("Wall") {}
@@ -116,7 +119,7 @@ public:
 	}
 };
 
-class PlayerState : public StateGameObject
+class PlayerState : public StateGameObject  //поле занимаемое игроком, может быть им покинуто, обозначается 3.
 {
 public:
 	Player* player;
@@ -153,7 +156,7 @@ bool PlayerState::ClearPlayer(GameObject* GO)
 	return true;
 }
 
-GameObject::GameObject()
+GameObject::GameObject() 
 {
 	state = new VoidFieldState();
 }
