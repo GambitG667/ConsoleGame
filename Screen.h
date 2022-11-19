@@ -4,6 +4,8 @@
 #include <iostream>
 #include "GameObject.h"
 
+//служебный класс выводит массив GameObject на экран соответственно их обозначениям.
+
 struct ScreenArray
 {
 	GameObject* screenArray;
