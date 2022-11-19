@@ -3,6 +3,8 @@
 #include "Coordinates.h"
 #include "GameObject.h"
 
+//класс игрока, общается с остальными компонентами с помощью координат.
+
 class Player
 {
 private:
