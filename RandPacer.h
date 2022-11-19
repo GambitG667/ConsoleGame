@@ -1,10 +1,11 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <vector>
 #include <minmax.h>
 #include "Coordinates.h"
 #include "GameObject.h"
+
+//класс рандомного шагателя который генерирует комнаты.
 
 class Pacer;
 class RandPaser;
@@ -260,7 +261,8 @@ void wall(Pacer* pacer, GameObject* arr, int SegmentHeight,int SegmentWidth, int
 
 }
 
-void BuildRandomRoom1(GameObject* arr, int height, int width)
+
+void BuildRandomRoom1(GameObject* arr, int height, int width)   // строим рандомную комнату
 {
 	Pacer pacer = Pacer(new RightStateOfPacer(), width/2, 0, width, height, -1, -1, 1);
 	arr[pacer.coordinates.y * width + pacer.coordinates.x].BuildWall();
@@ -268,22 +270,25 @@ void BuildRandomRoom1(GameObject* arr, int height, int width)
 	wall(&pacer, arr, width / 2-1, height / 2, width);
 	wall(&pacer, arr, height / 2-1, width / 2, width);
 	wall(&pacer, arr, width / 2-1, height / 2, width);
-	//for (int i = 0; i < height; ++i)
-	//{
-	//	int j = 0;
-	//	while (arr[i*width+j].GetState() != "Wall" && j < width)
-	//	{
-	//		arr[i * width + j].Hide();
-	//		++j;
-	//	}
-	//	j = width - 1;
-	//	while (arr[i * width + j].GetState() != "Wall" && j < width)
-	//	{
-	//		arr[i * width + j].Hide();
-	//		--j;
-	//	}
+	
+	// скрываем поля находящиеся за пределами стен
+	
+	for (int i = 0; i < height; ++i)
+	{
+		int j = 0;
+		while (arr[i*width+j].GetState() != "Wall" && j < width)
+		{
+			arr[i * width + j].Hide();
+			++j;
+		}
+		j = width - 1;
+		while (arr[i * width + j].GetState() != "Wall" && 0 < j)
+		{
+			arr[i * width + j].Hide();
+			--j;
+		}
 
-	//}
+	}
 }
 
 
